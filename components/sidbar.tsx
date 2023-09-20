@@ -1,98 +1,59 @@
 "use client";
 
+import React, { useEffect, useState } from "react";
+import { ModeToggle } from "./theme-toggle";
+import { sidebarElements } from "@/data/sidebar";
 import { cn } from "@/lib/utils";
-import {
-    Code,
-    ImageIcon,
-    LayoutDashboard,
-    MessageSquare,
-    Music,
-    Settings,
-    VideoIcon,
-} from "lucide-react";
-import { Comfortaa } from "next/font/google";
-import Image from "next/image";
-import Link from "next/link";
-import React from "react";
-import { usePathname } from "next/navigation";
-
-const comfortaa = Comfortaa({ weight: ["700"], subsets: ["greek"] });
-
-const routes = [
-    {
-        title: "Dashboard",
-        icon: LayoutDashboard,
-        href: "/dashboard",
-        color: "text-violet-400"
-    },
-    {
-        title: "Conversation",
-        icon: MessageSquare,
-        href: "/chat",
-        color: "text-pink-700"
-    },
-    {
-        title: "Image Generation",
-        icon: ImageIcon,
-        href: "/image",
-        color: "text-sky-400"
-    },
-    {
-        title: "Video Generation",
-        icon: VideoIcon,
-        href: "/video",
-        color: "text-teal-400"
-    },
-    {
-        title: "Music Generation",
-        icon: Music,
-        href: "/music",
-        color: "text-lime-400"
-    },
-    {
-        title: "Code Generation",
-        icon: Code,
-        href: "/code",
-        color: "text-orange-400"
-    },
-    {
-        title: "Settings",
-        icon: Settings,
-        href: "/settings",
-    },
-];
+import { Settings } from "lucide-react";
+import { UserButton } from "@clerk/nextjs";
+import RecentConversations from "./recent-conversations";
+import FavouriteConversations from "./favourite-conversations";
+import Plugins from "./plugins";
 
 const Sidebar = () => {
-    const pathname = usePathname();
+    const [active, setActive] = useState<string>("chat");
+    const sidebarOptions: Record<string, any> = {
+        chat: RecentConversations,
+        favourite: FavouriteConversations,
+        plugin: Plugins,
+    };
+
+    const [content, setContent] = useState<any>(sidebarOptions["chat"]);
+
+    useEffect(() => {
+        setContent(sidebarOptions[active]);
+    }, [active]);
+
     return (
-        <div className="p-4 flex flex-col h-full w-full bg-slate-900">
-            <div className="mb-20">
-                <Link className="flex space-x-3 items-center" href={"/dashboard"}>
-                    <Image
-                        className="ms-2 w-auto"
-                        width={30}
-                        height={30}
-                        alt="Logo"
-                        src={"/logo.png"}
-                        priority></Image>
-                    <h1 className={cn(" text-white text-4xl mt-2", comfortaa.className)}>Ginie</h1>
-                </Link>
+        <div className="flex w-full h-full flex-col justify-between">
+            <div className="flex w-full h-full">
+                <div className="flex flex-col w-12 mt-8">
+                    {sidebarElements.map((obj) => (
+                        <div
+                            onClick={() => setActive(obj.id)}
+                            key={obj.id}
+                            className={cn(
+                                "p-3 cursor-pointer hover:bg-slate-900 transtion duration-200",
+                                {
+                                    "bg-slate-900 border-l-2 border-l-slate-400": active === obj.id,
+                                }
+                            )}>
+                            <obj.icon strokeWidth={1} className="h-[1.4rem] w-[1.4rem]" />
+                        </div>
+                    ))}
+                </div>
+                <div className="flex w-full flex-col p-4">{content}</div>
             </div>
-            <div className="space-y-1 text-sm text-slate-200 w-full">
-                {routes.map((route) => (
-                    <Link
-                        href={route.href}
-                        className={cn(
-                            "flex items-center cursor-pointer w-full p-3 rounded hover:bg-white/10",
-                            pathname === route.href ? "bg-white/10 text-white" : "text-zinc-300"
-                        )}
-                        key={route.href}>
-                        <span className="w-5 h-5 mr-3">
-                            <route.icon size={"icon"} className={cn(route.color)} />
-                        </span>
-                        <h3>{route.title}</h3>
-                    </Link>
-                ))}
+            <div className="flex px-4 py-2 justify-between items-center">
+                <div className={cn("cursor-pointer w-full")}>
+                    <UserButton showName afterSignOutUrl="/landing" />
+                </div>
+                <div className="flex items-center">
+                    <div className={cn("p-3 cursor-pointer")}>
+                        <Settings strokeWidth={1} className="h-[1.4rem] w-[1.4rem]" />
+                    </div>
+                    <ModeToggle />
+                </div>
             </div>
         </div>
     );
