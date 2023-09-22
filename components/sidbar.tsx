@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { ModeToggle } from "./theme-toggle";
 import { sidebarElements } from "@/data/sidebar";
 import { cn } from "@/lib/utils";
 import { Settings } from "lucide-react";
@@ -33,7 +32,7 @@ const Sidebar = () => {
                             onClick={() => setActive(obj.id)}
                             key={obj.id}
                             className={cn(
-                                "p-3 cursor-pointer hover:bg-slate-900 transtion duration-200",
+                                "p-3 cursor-pointer text-indigo-300 hover:bg-slate-900 transtion duration-200",
                                 {
                                     "bg-slate-900 border-l-2 border-l-slate-400": active === obj.id,
                                 }
@@ -44,15 +43,14 @@ const Sidebar = () => {
                 </div>
                 <div className="flex w-full flex-col p-4">{content}</div>
             </div>
-            <div className="flex px-4 py-2 justify-between items-center">
+            <div className="flex p-4 justify-between items-center">
                 <div className={cn("cursor-pointer w-full")}>
                     <UserButton showName afterSignOutUrl="/landing" />
                 </div>
                 <div className="flex items-center">
-                    <div className={cn("p-3 cursor-pointer")}>
+                    <div className={cn("cursor-pointer text-indigo-300")}>
                         <Settings strokeWidth={1} className="h-[1.4rem] w-[1.4rem]" />
                     </div>
-                    <ModeToggle />
                 </div>
             </div>
         </div>
