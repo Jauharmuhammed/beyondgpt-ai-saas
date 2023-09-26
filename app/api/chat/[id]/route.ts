@@ -1,18 +1,25 @@
 import prisma from "@/lib/db";
+import { auth } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
 import OpenAI from "openai";
 
 export async function GET(request: Request, { params }: { params: { id: string } }) {
     try {
         const id = params.id;
+        const { userId } = auth()
 
         if (typeof id !== "string") {
             return new NextResponse("Invalid ID", { status: 400 });
         }
 
+        if (!userId) {
+            return new NextResponse("Invalid User ID", { status: 400 });
+        }
+
         const chat = await prisma.chat.findUnique({
             where: {
-                id: id,
+                id,
+                userId,
             },
         });
 

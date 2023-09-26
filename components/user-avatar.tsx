@@ -7,8 +7,8 @@ const UserAvatar = () => {
         <Avatar>
             <AvatarImage src={user?.imageUrl} />
             <AvatarFallback>
-                {user?.firstName?.charAt(0)}
-                {user?.lastName?.charAt(0)}
+                {user?.firstName?.charAt(0).toUpperCase()}
+                {user?.lastName?.charAt(0).toUpperCase()}
             </AvatarFallback>
         </Avatar>
     );

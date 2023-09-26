@@ -13,10 +13,6 @@ export async function POST(req: Request) {
         const body = await req.json();
         const { message: userMessage, chatId, isCode } = body;
 
-        console.log('[USER MESSAGE]', userMessage)
-        console.log('[CHAT ID]', userMessage)
-        console.log('[IS CODE]', isCode)
-
         if (!userId) {
             return new NextResponse("Unauthorized", { status: 401 });
         }
@@ -58,15 +54,11 @@ export async function POST(req: Request) {
         }
 
         messages = messages.concat([userMessage]);
-        console.log("[MESSAGES]", messages);
-        console.log("[USER MESSAGES]", userMessage);
 
         const response = await openai.chat.completions.create({
             model: "gpt-3.5-turbo",
             messages,
         });
-
-        console.log("[RESPONSE]", response.choices[0].message);
 
         if (!id) {
             const newChat = await prisma.chat.create({
@@ -91,6 +83,15 @@ export async function POST(req: Request) {
                 content: response.choices[0].message.content || "",
                 role: response.choices[0].message.role,
                 chatId: id,
+            },
+        });
+
+        await prisma.chat.update({
+            where: {
+                id,
+            },
+            data: {
+                updatedAt: new Date(),
             },
         });
 

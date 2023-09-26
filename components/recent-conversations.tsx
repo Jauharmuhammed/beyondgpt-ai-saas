@@ -29,8 +29,8 @@ const RecentConversations = ({ chats }: { chats: chatsType }) => {
                                 "bg-slate-900": pathname.includes(chat.id),
                             }
                         )}>
-                        <MessageSquare className="text-blue-950" size={16} />
-                        <span className="text-sm text-slate-400">{chat.title}</span>
+                        <MessageSquare className="text-indigo-300/80" size={16} />
+                        <span className="text-sm text-slate-300">{chat.title}</span>
                     </div>
                 ))}
             </div>

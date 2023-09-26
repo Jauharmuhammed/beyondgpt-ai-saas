@@ -1,6 +1,7 @@
 import Navbar from "@/components/navbar";
 import ScrollDownButton from "@/components/scroll-down-button";
 import Sidebar from "@/components/sidbar";
+import { Toaster } from "@/components/ui/toaster";
 import { Providers } from "@/contexts/providers";
 import React from "react";
 
@@ -15,6 +16,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
                 <ScrollDownButton />
                 <Providers>{children}</Providers>
             </section>
+            <Toaster />
         </div>
     );
 };

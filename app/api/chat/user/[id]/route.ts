@@ -13,6 +13,9 @@ export async function GET(request: Request, { params }: { params: { id: string }
             where: {
                 userId: id,
             },
+            orderBy: {
+                updatedAt: "desc",
+            },
         });
 
         return NextResponse.json(chats, { status: 200 });

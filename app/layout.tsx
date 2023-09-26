@@ -8,8 +8,8 @@ import { ChatProvider } from "@/contexts/chat-context";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-    title: "Ginie AI",
-    description: "AI Platform",
+    title: "BeyondGPT",
+    description: "AI Chatbot",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

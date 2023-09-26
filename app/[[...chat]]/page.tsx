@@ -7,7 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { SendHorizonal } from "lucide-react";
 import TextareaAutosize from "react-textarea-autosize";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
@@ -20,12 +20,14 @@ import Loader from "@/components/loader";
 import Message from "@/components/message";
 import { useAuth } from "@clerk/nextjs";
 import { useChat } from "@/contexts/chat-context";
+import { useToast } from "@/components/ui/use-toast";
 
 const ChatPage = () => {
     const router = useRouter();
     const params = useParams();
     const pathname = usePathname();
     const chatId = params.chat?.[1] || "";
+    const { toast } = useToast();
 
     const [isCode, setIsCode] = useState(params.chat?.[0] === "code");
 
@@ -58,13 +60,20 @@ const ChatPage = () => {
         try {
             console.log(chatId);
             const response = await axios.get(`/api/chat/${chatId}`);
-            if (response.status !== 200) {
-                throw new Error("Network response was not ok");
-            }
             const data = response.data;
             setMessages(data);
-        } catch (error) {
-            console.error("Error fetching data:", error);
+        } catch (err: any) {
+            if (axios.isAxiosError(err)) {
+                if (err?.response?.data === "Chat not found") {
+                    toast({
+                        variant: "destructive",
+                        description: "Uh oh! Unable to find chat.",
+                    });
+                }
+            } else {
+                // Just a stock error
+            }
+            router.push("/");
         }
     };
 
@@ -194,7 +203,7 @@ const ChatPage = () => {
                     </Form>
                 </div>
                 <p className="text-xs mt-2 text-center text-slate-500">
-                    ChatGPT may produce inaccurate information about people, places, or facts.
+                    BeyondGPT may produce inaccurate information about people, places, or facts.
                 </p>
             </div>
         </div>
