@@ -1,31 +1,39 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { SendHorizonal } from "lucide-react";
 import TextareaAutosize from "react-textarea-autosize";
-import ReactMarkdown from "react-markdown";
 import axios from "axios";
 
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { formSchema } from "./constants";
-import { useRouter } from "next/navigation";
+import { useRouter, useParams, usePathname } from "next/navigation";
 
-import { OpenAI } from "openai";
 import Empty from "@/components/empty";
-import UserAvatar from "@/components/user-avatar";
-import AiAvatar from "@/components/ai-avatar";
 import Loader from "@/components/loader";
+import Message from "@/components/message";
+import { useAuth } from "@clerk/nextjs";
+import { useChat } from "@/contexts/chat-context";
 
-const DashboardPage = () => {
+const ChatPage = () => {
     const router = useRouter();
+    const params = useParams();
+    const pathname = usePathname();
+    const chatId = params.chat?.[1] || "";
+
+    const [isCode, setIsCode] = useState(params.chat?.[0] === "code");
+
+    const { userId } = useAuth();
     const [isPromptEmpty, setIsPromptEmpty] = useState<boolean>(true);
-    const [messages, setMessages] = useState<OpenAI.Chat.Completions.ChatCompletionMessage[]>([]);
+    const { messages, setMessages } = useChat();
+
+    const bottomRef = useRef<HTMLDivElement | null>(null);
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -34,39 +42,74 @@ const DashboardPage = () => {
         },
     });
 
-    const bottomRef = useRef<HTMLDivElement | null>(null);
-
     const scrollToBottom = () => {
-        bottomRef.current?.scrollIntoView({
+        window.scrollTo({
             behavior: "smooth",
-            block: "end", // Scroll to the bottom of the element
-            inline: "nearest",
+            top: document.body.scrollHeight,
         });
     };
+
+    useEffect(() => {
+        console.log(messages.length);
+        scrollToBottom();
+    }, [messages]);
+
+    const fetchData = async () => {
+        try {
+            console.log(chatId);
+            const response = await axios.get(`/api/chat/${chatId}`);
+            if (response.status !== 200) {
+                throw new Error("Network response was not ok");
+            }
+            const data = response.data;
+            setMessages(data);
+        } catch (error) {
+            console.error("Error fetching data:", error);
+        }
+    };
+
+    useEffect(() => {
+        if (chatId) {
+            fetchData();
+        }
+    }, [chatId]);
 
     const isLoading = form.formState.isSubmitting;
 
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
         try {
-            const userMessage: OpenAI.Chat.Completions.ChatCompletionMessage = {
+            if (!userId) return;
+
+            const userMessage = {
                 role: "user",
                 content: values.prompt,
             };
-            const newMessages = [...messages, userMessage];
             setMessages((current) => [...current, userMessage]);
+            // scrollToBottom();
 
-            const response = await axios.post("api/chat", {
-                messages: newMessages,
+            const response = await axios.post("../api/chat", {
+                message: userMessage,
+                chatId,
+                isCode,
             });
 
-            setMessages((current) => [...current, response.data]);
+            if (!chatId) {
+                router.push(`${isCode ? "code" : "chat"}/${response.data.id}`);
+            }
+
+            console.log("[response]", response.data.message);
+
+            setMessages((current) => [...current, response.data.message]);
+            // scrollToBottom();
+
             form.reset();
         } catch (error: any) {
             // TODO: Open Pro Modal
             console.log(error);
         } finally {
             router.refresh();
-            scrollToBottom()
+            if (!userId) {
+            }
         }
     };
 
@@ -97,20 +140,8 @@ const DashboardPage = () => {
                 <Empty />
             ) : (
                 <div className="w-full flex flex-col items-center h-full">
-                    <div className="bg-slate-900 w-full min-h-[4rem]"></div>
-                    {messages.map((message) => (
-                        <div
-                            className={cn(
-                                "w-full py-4 px-3 md:px-0",
-                                message.role === "user" ? "bg-slate-925" : "bg-slate-900"
-                            )}>
-                            <div className="max-w-2xl mx-auto flex align-top space-x-4">
-                                <div>{message.role === "user" ? <UserAvatar /> : <AiAvatar />}</div>
-                                <p className="py-1 md:pe-8 text-slate-300">
-                                    <ReactMarkdown children={message.content || ""} />
-                                </p>
-                            </div>
-                        </div>
+                    {messages.map((message, index) => (
+                        <Message id={`message-${index}`} key={index} message={message} />
                     ))}
                     {isLoading && <Loader />}
                     <div
@@ -118,7 +149,7 @@ const DashboardPage = () => {
                         className="bg-slate-925 w-full h-full min-h-[8rem] md:min-h-[10rem] mt-auto"></div>
                 </div>
             )}
-            <div className="fixed bottom-0 md:left-72 right-0 bg-gradient-to-b from-transparent via-slate-925 to-slate-925 flex flex-col justify-end items-center h-32 md:h-40 py-6 md:py-10 px-3 md:px-4">
+            <div className="fixed bottom-0 left-0 md:left-72 right-0 bg-gradient-to-b from-transparent via-slate-925 to-slate-925 flex flex-col justify-end items-center h-32 md:h-40 py-6 md:py-10 px-3 md:px-4">
                 <div className="w-full max-w-2xl relative">
                     <Form {...form}>
                         <form
@@ -170,4 +201,4 @@ const DashboardPage = () => {
     );
 };
 
-export default DashboardPage;
+export default ChatPage;
