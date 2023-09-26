@@ -1,8 +1,10 @@
 import React from 'react'
+import SidebarHeader from './sidebar-header'
 
 const FavouriteConversations = () => {
   return (
-    <div>FavouriteConversations</div>
+    <SidebarHeader title="Favourite Conversations" />
+
   )
 }
 

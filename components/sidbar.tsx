@@ -4,28 +4,36 @@ import React, { useEffect, useState } from "react";
 import { sidebarElements } from "@/data/sidebar";
 import { cn } from "@/lib/utils";
 import { Settings } from "lucide-react";
-import { UserButton } from "@clerk/nextjs";
+import { UserButton, useAuth } from "@clerk/nextjs";
 import RecentConversations from "./recent-conversations";
 import FavouriteConversations from "./favourite-conversations";
 import Plugins from "./plugins";
+import axios from "axios";
 
 const Sidebar = () => {
+    const { userId } = useAuth();
     const [active, setActive] = useState<string>("chat");
-    const sidebarOptions: Record<string, any> = {
-        chat: RecentConversations,
-        favourite: FavouriteConversations,
-        plugin: Plugins,
+
+    const [chats, setChats] = useState([]);
+
+    const fetchChats = async () => {
+        try {
+            if (userId) {
+                const response = await axios.get(`../api/chat/user/${userId}`);
+                console.log(response.data);
+                setChats(response.data);
+            }
+        } catch (error) {
+            console.log(error);
+        }
     };
-
-    const [content, setContent] = useState<any>(sidebarOptions["chat"]);
-
     useEffect(() => {
-        setContent(sidebarOptions[active]);
-    }, [active]);
+        fetchChats();
+    }, []);
 
     return (
-        <div className="flex w-full h-full flex-col justify-between">
-            <div className="flex w-full h-full">
+        <div className="flex w-full h-full flex-col">
+            <div className="flex w-full flex-grow h-1">
                 <div className="flex flex-col w-12 mt-8">
                     {sidebarElements.map((obj) => (
                         <div
@@ -41,7 +49,11 @@ const Sidebar = () => {
                         </div>
                     ))}
                 </div>
-                <div className="flex w-full flex-col p-4">{content}</div>
+                <div className="flex w-full flex-col p-4 pt-11 pr-0">
+                    {active === "chat" && <RecentConversations chats={chats} />}
+                    {active === "favourite" && <FavouriteConversations />}
+                    {active === "plugins" && <Plugins />}
+                </div>
             </div>
             <div className="flex p-4 justify-between items-center">
                 <div className={cn("cursor-pointer w-full")}>

@@ -5,7 +5,6 @@ import OpenAI from "openai";
 export async function GET(request: Request, { params }: { params: { id: string } }) {
     try {
         const id = params.id;
-        console.log(id);
 
         if (typeof id !== "string") {
             return new NextResponse("Invalid ID", { status: 400 });

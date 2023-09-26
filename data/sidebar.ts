@@ -12,7 +12,7 @@ export const sidebarElements = [
         icon: Star
     },
     {
-        id: 'plugin',
+        id: 'plugins',
         title: 'Plugins',
         icon: Tags
     },
