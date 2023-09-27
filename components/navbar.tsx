@@ -7,11 +7,11 @@ import { PlusIcon } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-const Navbar = () => {
+const Navbar = ({apiLimitCount}: {apiLimitCount: number}) => {
     const pathname = usePathname();
     return (
         <div className="fixed top-0 md:static md:min-h-[4rem] w-full flex justify-between items-center px-2.5 py-1 bg-slate-900 z-10">
-            <MobileSidebar />
+            <MobileSidebar apiLimitCount={apiLimitCount} />
 
             {pathname !== "/" && (
                 <>

@@ -21,6 +21,7 @@ import Message from "@/components/message";
 import { useAuth } from "@clerk/nextjs";
 import { useChat } from "@/contexts/chat-context";
 import { useToast } from "@/components/ui/use-toast";
+import { useProModal } from "@/hooks/use-pro-modal";
 
 const ChatPage = () => {
     const router = useRouter();
@@ -28,6 +29,7 @@ const ChatPage = () => {
     const pathname = usePathname();
     const chatId = params.chat?.[1] || "";
     const { toast } = useToast();
+    const proModal = useProModal();
 
     const [isCode, setIsCode] = useState(params.chat?.[0] === "code");
 
@@ -113,7 +115,9 @@ const ChatPage = () => {
 
             form.reset();
         } catch (error: any) {
-            // TODO: Open Pro Modal
+            if (error?.response?.status === 403) {
+                proModal.open();
+            }
             console.log(error);
         } finally {
             router.refresh();

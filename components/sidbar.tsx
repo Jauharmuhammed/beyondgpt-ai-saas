@@ -9,8 +9,14 @@ import RecentConversations from "./recent-conversations";
 import FavouriteConversations from "./favourite-conversations";
 import Plugins from "./plugins";
 import axios from "axios";
+import FreeCounter from "./free-counter";
+import { Card } from "./ui/card";
 
-const Sidebar = () => {
+interface SidebarProps {
+    apiLimitCount: number;
+}
+
+const Sidebar = ({ apiLimitCount = 0 }: SidebarProps) => {
     const { userId } = useAuth();
     const [active, setActive] = useState<string>("chat");
 
@@ -55,16 +61,19 @@ const Sidebar = () => {
                     {active === "plugins" && <Plugins />}
                 </div>
             </div>
-            <div className="flex p-4 justify-between items-center">
-                <div className={cn("cursor-pointer w-full")}>
-                    <UserButton showName afterSignOutUrl="/landing" />
-                </div>
-                <div className="flex items-center">
-                    <div className={cn("cursor-pointer text-indigo-300")}>
-                        <Settings strokeWidth={1} className="h-[1.4rem] w-[1.4rem]" />
+            <Card className="flex pt-2 flex-col m-3 border-0 border-t rounded-none min-h-[9.3rem] justify-end">
+                <FreeCounter apiLimitCount={apiLimitCount} />
+                <div className="flex justify-between items-center">
+                    <div className={cn("cursor-pointer w-full")}>
+                        <UserButton showName afterSignOutUrl="/landing" />
+                    </div>
+                    <div className="flex items-center">
+                        <div className={cn("cursor-pointer text-indigo-300")}>
+                            <Settings strokeWidth={1} className="h-[1.4rem] w-[1.4rem]" />
+                        </div>
                     </div>
                 </div>
-            </div>
+            </Card>
         </div>
     );
 };

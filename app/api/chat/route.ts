@@ -2,6 +2,7 @@ import { auth } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
 import OpenAI from "openai";
 import prisma from "@/lib/db";
+import { checkUserApiLlimit, increateApiLimit } from "@/lib/api-limit";
 
 const openai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY,
@@ -21,10 +22,14 @@ export async function POST(req: Request) {
             return new NextResponse("Message is required", { status: 400 });
         }
 
+        const freeTrial = await checkUserApiLlimit();
+
+        if (!freeTrial) {
+            return new NextResponse("Free Trial Exhausted", { status: 403 });
+        }
+
         let id;
         let messages: OpenAI.Chat.Completions.ChatCompletionMessage[] = [];
-
-        console.log("CHAT ID", chatId);
 
         if (chatId) {
             const chat = await prisma.chat.findUnique({
@@ -34,7 +39,6 @@ export async function POST(req: Request) {
                     isCode,
                 },
             });
-            console.log("CHAT", chat);
             if (chat) {
                 id = chat.id;
                 const oldMessages = await prisma.message.findMany({
@@ -59,6 +63,8 @@ export async function POST(req: Request) {
             model: "gpt-3.5-turbo",
             messages,
         });
+
+        await increateApiLimit();
 
         if (!id) {
             const newChat = await prisma.chat.create({
