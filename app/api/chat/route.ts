@@ -71,7 +71,7 @@ export async function POST(req: Request) {
                 data: {
                     userId: userId,
                     isCode,
-                    title: userMessage.content?.substring(0, 20) || "",
+                    title: userMessage.content?.substring(0, 50) || "",
                 },
             });
             id = newChat.id;

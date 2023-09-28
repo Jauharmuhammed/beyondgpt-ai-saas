@@ -3,16 +3,10 @@ import SidebarHeader from "./sidebar-header";
 import { MessageSquare } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
+import { Chat } from "@prisma/client";
 
-type chatsType = {
-    id: string;
-    userId: string;
-    title: string;
-    createdAt: Date;
-    updatedAt: Date;
-}[];
 
-const RecentConversations = ({ chats }: { chats: chatsType }) => {
+const RecentConversations = ({ chats }: { chats: Chat[] }) => {
     const router = useRouter();
     const pathname = usePathname();
     return (
@@ -24,13 +18,13 @@ const RecentConversations = ({ chats }: { chats: chatsType }) => {
                         onClick={() => router.push(`/chat/${chat.id}`)}
                         key={chat.id}
                         className={cn(
-                            "p-2.5 flex space-x-2 items-center rounded-sm hover:bg-slate-900 cursor-pointer",
+                            " flex p-2.5 space-x-2 items-center rounded-sm hover:bg-slate-900 cursor-pointer",
                             {
                                 "bg-slate-900": pathname.includes(chat.id),
                             }
                         )}>
                         <MessageSquare className="text-indigo-300/80" size={16} />
-                        <span className="text-sm text-slate-300">{chat.title}</span>
+                        <p className="text-sm text-slate-300 truncate w-1 flex-grow">{chat.title}</p>
                     </div>
                 ))}
             </div>

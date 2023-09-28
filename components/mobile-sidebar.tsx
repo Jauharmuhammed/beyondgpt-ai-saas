@@ -5,8 +5,14 @@ import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet";
 import { Button } from "./ui/button";
 import { Menu } from "lucide-react";
 import Sidebar from "./sidbar";
+import { Chat } from "@prisma/client";
 
-const MobileSidebar = ({ apiLimitCount }: { apiLimitCount: number }) => {
+interface mobileSidebarProps {
+    apiLimitCount: number;
+    chats: Chat[];
+}
+
+const MobileSidebar = ({ apiLimitCount, chats }: mobileSidebarProps) => {
     const [isMounted, setIsMounted] = useState(false);
     useEffect(() => {
         setIsMounted(true);
@@ -24,7 +30,7 @@ const MobileSidebar = ({ apiLimitCount }: { apiLimitCount: number }) => {
                 </Button>
             </SheetTrigger>
             <SheetContent side="left" className="p-0">
-                <Sidebar apiLimitCount={apiLimitCount} />
+                <Sidebar apiLimitCount={apiLimitCount} chats={chats} />
             </SheetContent>
         </Sheet>
     );

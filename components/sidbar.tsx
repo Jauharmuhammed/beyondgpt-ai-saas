@@ -11,31 +11,16 @@ import Plugins from "./plugins";
 import axios from "axios";
 import FreeCounter from "./free-counter";
 import { Card } from "./ui/card";
+import { Chat } from "@prisma/client";
 
 interface SidebarProps {
     apiLimitCount: number;
+    chats: Chat[]
 }
 
-const Sidebar = ({ apiLimitCount = 0 }: SidebarProps) => {
+const Sidebar = ({ apiLimitCount = 0 , chats}: SidebarProps) => {
     const { userId } = useAuth();
     const [active, setActive] = useState<string>("chat");
-
-    const [chats, setChats] = useState([]);
-
-    const fetchChats = async () => {
-        try {
-            if (userId) {
-                const response = await axios.get(`../api/chat/user/${userId}`);
-                console.log(response.data);
-                setChats(response.data);
-            }
-        } catch (error) {
-            console.log(error);
-        }
-    };
-    useEffect(() => {
-        fetchChats();
-    }, []);
 
     return (
         <div className="flex w-full h-full flex-col">

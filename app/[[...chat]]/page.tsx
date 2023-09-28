@@ -7,7 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { SendHorizonal } from "lucide-react";
 import TextareaAutosize from "react-textarea-autosize";
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
@@ -22,8 +22,17 @@ import { useAuth } from "@clerk/nextjs";
 import { useChat } from "@/contexts/chat-context";
 import { useToast } from "@/components/ui/use-toast";
 import { useProModal } from "@/hooks/use-pro-modal";
+import { getMessages } from "@/lib/api-chat";
 
-const ChatPage = () => {
+type messageType = {
+    role: string;
+    content: string;
+}
+interface chatPageProps {
+    initialMessages: messageType[];
+}
+
+const ChatPage = ({ initialMessages = [] }: chatPageProps) => {
     const router = useRouter();
     const params = useParams();
     const pathname = usePathname();
@@ -35,9 +44,11 @@ const ChatPage = () => {
 
     const { userId } = useAuth();
     const [isPromptEmpty, setIsPromptEmpty] = useState<boolean>(true);
-    const { messages, setMessages } = useChat();
+    const [messages, setMessages] = useState([...initialMessages]);
 
     const bottomRef = useRef<HTMLDivElement | null>(null);
+
+    console.log(["INITAL MESSAGE", initialMessages]);
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -54,7 +65,6 @@ const ChatPage = () => {
     };
 
     useEffect(() => {
-        console.log(messages.length);
         scrollToBottom();
     }, [messages]);
 
@@ -96,7 +106,7 @@ const ChatPage = () => {
                 content: values.prompt,
             };
             setMessages((current) => [...current, userMessage]);
-            // scrollToBottom();
+            // form.reset({ prompt: "" });
 
             const response = await axios.post("../api/chat", {
                 message: userMessage,
@@ -111,12 +121,14 @@ const ChatPage = () => {
             console.log("[response]", response.data.message);
 
             setMessages((current) => [...current, response.data.message]);
-            // scrollToBottom();
 
             form.reset();
         } catch (error: any) {
             if (error?.response?.status === 403) {
                 proModal.open();
+
+                // remove the last user message from the messages state
+                setMessages((prevMessages) => prevMessages.slice(0, -1));
             }
             console.log(error);
         } finally {
@@ -152,7 +164,7 @@ const ChatPage = () => {
             {messages.length === 0 ? (
                 <Empty />
             ) : (
-                <div className="w-full flex flex-col items-center h-full">
+                <div className="w-full flex flex-col items-center h-full mt-12 md:mt-0">
                     {messages.map((message, index) => (
                         <Message id={`message-${index}`} key={index} message={message} />
                     ))}
