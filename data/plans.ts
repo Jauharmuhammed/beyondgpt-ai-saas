@@ -6,7 +6,7 @@ export const planFeatures = {
             "Basic features included.",
         ],
     },
-    plus: {
+    pro: {
         features: [
             "Access to our Beyond-2 model.",
             "Unlimited generations.",
