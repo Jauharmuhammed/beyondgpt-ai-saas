@@ -22,16 +22,14 @@ import { useAuth } from "@clerk/nextjs";
 import { useProModal } from "@/hooks/use-pro-modal";
 import { getMessages } from "@/lib/api-chat";
 import toast from "react-hot-toast";
+import { useChat } from "@/contexts/chat-context";
 
 type messageType = {
     role: string;
     content: string;
 };
-interface chatPageProps {
-    initialMessages: messageType[];
-}
 
-const ChatPage = ({ initialMessages = [] }: chatPageProps) => {
+const ChatPage = () => {
     const router = useRouter();
     const params = useParams();
     const chatId = params.chat?.[1] || "";
@@ -47,11 +45,9 @@ const ChatPage = ({ initialMessages = [] }: chatPageProps) => {
 
     const { userId } = useAuth();
     const [isPromptEmpty, setIsPromptEmpty] = useState<boolean>(true);
-    const [messages, setMessages] = useState([...initialMessages]);
+    const { messages, setMessages } = useChat();
 
     const bottomRef = useRef<HTMLDivElement | null>(null);
-
-    console.log(["INITAL MESSAGE", initialMessages]);
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
