@@ -90,7 +90,7 @@ const ChatPage = () => {
         if (chatId) {
             fetchData();
         }
-    }, [chatId, router]);
+    }, [chatId, router, setMessages]);
 
     const isLoading = form.formState.isSubmitting;
 
