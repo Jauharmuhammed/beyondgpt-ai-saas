@@ -1,5 +1,4 @@
 import SubscriptionButton from "@/components/subscription-button";
-import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { MONTHLY_SUBSCRIPTION_FEE } from "@/constants";
 import { planFeatures } from "@/data/plans";

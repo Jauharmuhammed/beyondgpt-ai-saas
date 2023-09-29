@@ -70,3 +70,14 @@ input:-webkit-autofill:active {
 textarea {
     resize: none;
 }
+
+video {
+    /** Simulationg background-size: cover */
+    object-fit: cover;
+    height: 100%;
+    width: 100%;
+  
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
