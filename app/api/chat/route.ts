@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 import OpenAI from "openai";
 import prisma from "@/lib/db";
 import { checkUserApiLlimit, increateApiLimit } from "@/lib/api-limit";
+import { checkSubscription } from "@/lib/subscription";
 
 const openai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY,
@@ -23,8 +24,9 @@ export async function POST(req: Request) {
         }
 
         const freeTrial = await checkUserApiLlimit();
+        const isPro = await checkSubscription();
 
-        if (!freeTrial) {
+        if (!freeTrial && !isPro) {
             return new NextResponse("Free Trial Exhausted", { status: 403 });
         }
 

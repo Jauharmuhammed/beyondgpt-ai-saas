@@ -1,11 +1,14 @@
-import React from 'react'
-import SidebarHeader from './sidebar-header'
+import React from "react";
+import SidebarHeader from "./sidebar-header";
+import UnderConstruction from "./under-construction";
 
 const FavouriteConversations = () => {
-  return (
-    <SidebarHeader title="Favourite Conversations" />
+    return (
+        <>
+            <SidebarHeader title="Favourite Conversations" />
+            <UnderConstruction />
+        </>
+    );
+};
 
-  )
-}
-
-export default FavouriteConversations
+export default FavouriteConversations;

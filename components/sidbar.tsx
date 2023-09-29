@@ -1,26 +1,27 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { sidebarElements } from "@/data/sidebar";
 import { cn } from "@/lib/utils";
 import { Settings } from "lucide-react";
-import { UserButton, useAuth } from "@clerk/nextjs";
+import { UserButton } from "@clerk/nextjs";
 import RecentConversations from "./recent-conversations";
 import FavouriteConversations from "./favourite-conversations";
 import Plugins from "./plugins";
-import axios from "axios";
 import FreeCounter from "./free-counter";
 import { Card } from "./ui/card";
 import { Chat } from "@prisma/client";
+import { useRouter } from "next/navigation";
 
 interface SidebarProps {
     apiLimitCount: number;
-    chats: Chat[]
+    chats: Chat[];
+    isPro: boolean;
 }
 
-const Sidebar = ({ apiLimitCount = 0 , chats}: SidebarProps) => {
-    const { userId } = useAuth();
+const Sidebar = ({ apiLimitCount = 0, chats, isPro = false }: SidebarProps) => {
     const [active, setActive] = useState<string>("chat");
+    const router = useRouter();
 
     return (
         <div className="flex w-full h-full flex-col">
@@ -46,15 +47,19 @@ const Sidebar = ({ apiLimitCount = 0 , chats}: SidebarProps) => {
                     {active === "plugins" && <Plugins />}
                 </div>
             </div>
-            <Card className="flex pt-2 flex-col m-3 border-0 border-t rounded-none min-h-[9.3rem] justify-end">
-                <FreeCounter apiLimitCount={apiLimitCount} />
+            <Card className="flex flex-col m-3 justify-end border-0">
+                <FreeCounter isPro={isPro} apiLimitCount={apiLimitCount} />
                 <div className="flex justify-between items-center">
                     <div className={cn("cursor-pointer w-full")}>
                         <UserButton showName afterSignOutUrl="/landing" />
                     </div>
                     <div className="flex items-center">
                         <div className={cn("cursor-pointer text-indigo-300")}>
-                            <Settings strokeWidth={1} className="h-[1.4rem] w-[1.4rem]" />
+                            <Settings
+                                onClick={() => router.push("/settings")}
+                                strokeWidth={1}
+                                className="h-[1.4rem] w-[1.4rem]"
+                            />
                         </div>
                     </div>
                 </div>

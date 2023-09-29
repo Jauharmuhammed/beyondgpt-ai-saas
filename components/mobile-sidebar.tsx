@@ -10,9 +10,10 @@ import { Chat } from "@prisma/client";
 interface mobileSidebarProps {
     apiLimitCount: number;
     chats: Chat[];
+    isPro: boolean;
 }
 
-const MobileSidebar = ({ apiLimitCount, chats }: mobileSidebarProps) => {
+const MobileSidebar = ({ apiLimitCount, chats, isPro = false }: mobileSidebarProps) => {
     const [isMounted, setIsMounted] = useState(false);
     useEffect(() => {
         setIsMounted(true);
@@ -30,7 +31,7 @@ const MobileSidebar = ({ apiLimitCount, chats }: mobileSidebarProps) => {
                 </Button>
             </SheetTrigger>
             <SheetContent side="left" className="p-0">
-                <Sidebar apiLimitCount={apiLimitCount} chats={chats} />
+                <Sidebar isPro={isPro} apiLimitCount={apiLimitCount} chats={chats} />
             </SheetContent>
         </Sheet>
     );

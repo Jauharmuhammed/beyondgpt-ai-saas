@@ -12,7 +12,7 @@ import axios from "axios";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { formSchema } from "./constants";
+import { formSchema } from "../constants";
 import { useRouter, useParams, usePathname } from "next/navigation";
 
 import Empty from "@/components/empty";
@@ -27,7 +27,7 @@ import { getMessages } from "@/lib/api-chat";
 type messageType = {
     role: string;
     content: string;
-}
+};
 interface chatPageProps {
     initialMessages: messageType[];
 }
@@ -41,6 +41,12 @@ const ChatPage = ({ initialMessages = [] }: chatPageProps) => {
     const proModal = useProModal();
 
     const [isCode, setIsCode] = useState(params.chat?.[0] === "code");
+
+    const firstChatItem = params.chat?.[0];
+
+    if (firstChatItem && firstChatItem !== "chat" && firstChatItem !== "code") {
+        router.push("/404");
+    }
 
     const { userId } = useAuth();
     const [isPromptEmpty, setIsPromptEmpty] = useState<boolean>(true);

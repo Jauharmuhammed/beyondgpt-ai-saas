@@ -11,13 +11,14 @@ import { Chat } from "@prisma/client";
 interface navbarProps {
     apiLimitCount: number;
     chats: Chat[];
+    isPro: boolean;
 }
 
-const Navbar = ({ apiLimitCount, chats }: navbarProps) => {
+const Navbar = ({ apiLimitCount, chats, isPro = false }: navbarProps) => {
     const pathname = usePathname();
     return (
         <div className="fixed top-0 border-b md:border-none md:static md:min-h-[4rem] w-full flex justify-between items-center px-2.5 py-1 bg-slate-900 z-10">
-            <MobileSidebar apiLimitCount={apiLimitCount} chats={chats} />
+            <MobileSidebar apiLimitCount={apiLimitCount} chats={chats} isPro={isPro} />
 
             {pathname !== "/" && (
                 <>
