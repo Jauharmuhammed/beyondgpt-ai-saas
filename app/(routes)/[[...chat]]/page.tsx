@@ -13,13 +13,12 @@ import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { formSchema } from "../constants";
-import { useRouter, useParams, usePathname } from "next/navigation";
+import { useRouter, useParams } from "next/navigation";
 
 import Empty from "@/components/empty";
 import Loader from "@/components/loader";
 import Message from "@/components/message";
 import { useAuth } from "@clerk/nextjs";
-import { useToast } from "@/components/ui/use-toast";
 import { useProModal } from "@/hooks/use-pro-modal";
 import { getMessages } from "@/lib/api-chat";
 import toast from "react-hot-toast";
@@ -35,7 +34,6 @@ interface chatPageProps {
 const ChatPage = ({ initialMessages = [] }: chatPageProps) => {
     const router = useRouter();
     const params = useParams();
-    const pathname = usePathname();
     const chatId = params.chat?.[1] || "";
     const proModal = useProModal();
 
@@ -73,29 +71,30 @@ const ChatPage = ({ initialMessages = [] }: chatPageProps) => {
         scrollToBottom();
     }, [messages]);
 
-    const fetchData = async () => {
-        try {
-            console.log(chatId);
-            const response = await axios.get(`/api/chat/${chatId}`);
-            const data = response.data;
-            setMessages(data);
-        } catch (err: any) {
-            if (axios.isAxiosError(err)) {
-                if (err?.response?.data === "Chat not found") {
-                    toast.error("Uh oh! Unable to find chat.");
-                }
-            } else {
-                // Just a stock error
-            }
-            router.push("/");
-        }
-    };
-
     useEffect(() => {
+        const fetchData = async () => {
+            try {
+                console.log(chatId);
+                const response = await axios.get(`/api/chat/${chatId}`);
+                const data = response.data;
+                setMessages(data);
+            } catch (err: any) {
+                if (axios.isAxiosError(err)) {
+                    if (err?.response?.data === "Chat not found") {
+                        toast.error("Uh oh! Unable to find chat.");
+                    }
+                } else {
+                    toast.error("Uh oh! Something went wrong");
+                    console.log("[CHAT_DATA_FETCH_ERROR]", err);
+                }
+                router.push("/");
+            }
+        };
+
         if (chatId) {
             fetchData();
         }
-    }, [chatId]);
+    }, [chatId, router]);
 
     const isLoading = form.formState.isSubmitting;
 
@@ -108,7 +107,6 @@ const ChatPage = ({ initialMessages = [] }: chatPageProps) => {
                 content: values.prompt,
             };
             setMessages((current) => [...current, userMessage]);
-            // form.reset({ prompt: "" });
 
             const response = await axios.post("../api/chat", {
                 message: userMessage,
