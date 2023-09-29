@@ -19,10 +19,10 @@ import Empty from "@/components/empty";
 import Loader from "@/components/loader";
 import Message from "@/components/message";
 import { useAuth } from "@clerk/nextjs";
-import { useChat } from "@/contexts/chat-context";
 import { useToast } from "@/components/ui/use-toast";
 import { useProModal } from "@/hooks/use-pro-modal";
 import { getMessages } from "@/lib/api-chat";
+import toast from "react-hot-toast";
 
 type messageType = {
     role: string;
@@ -37,7 +37,6 @@ const ChatPage = ({ initialMessages = [] }: chatPageProps) => {
     const params = useParams();
     const pathname = usePathname();
     const chatId = params.chat?.[1] || "";
-    const { toast } = useToast();
     const proModal = useProModal();
 
     const [isCode, setIsCode] = useState(params.chat?.[0] === "code");
@@ -83,10 +82,7 @@ const ChatPage = ({ initialMessages = [] }: chatPageProps) => {
         } catch (err: any) {
             if (axios.isAxiosError(err)) {
                 if (err?.response?.data === "Chat not found") {
-                    toast({
-                        variant: "destructive",
-                        description: "Uh oh! Unable to find chat.",
-                    });
+                    toast.error("Uh oh! Unable to find chat.");
                 }
             } else {
                 // Just a stock error
@@ -139,8 +135,6 @@ const ChatPage = ({ initialMessages = [] }: chatPageProps) => {
             console.log(error);
         } finally {
             router.refresh();
-            if (!userId) {
-            }
         }
     };
 
