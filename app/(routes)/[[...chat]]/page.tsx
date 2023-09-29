@@ -40,7 +40,7 @@ const ChatPage = () => {
     const firstChatItem = params.chat?.[0];
 
     if (firstChatItem && firstChatItem !== "chat" && firstChatItem !== "code") {
-        router.push("/404");
+        router.push("/");
     }
 
     const { userId } = useAuth();
