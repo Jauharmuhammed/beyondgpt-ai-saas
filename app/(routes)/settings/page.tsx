@@ -29,7 +29,7 @@ const SettingsPage = async () => {
                         : "Currently you are on the free plan."}
                 </p>
                 <SubscriptionButton isPro={isPro} />
-                <div className="">
+                <div className="lg:w-fit">
                     <Card className="p-4 box-border flex flex-col md:flex-row justify-between space-y-3 md:space-y-0 mt-16">
                         <PlanDetails />
                     </Card>

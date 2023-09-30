@@ -3,9 +3,12 @@
 import { useEffect, useState } from "react";
 import { Button } from "./ui/button";
 import { ArrowDown } from "lucide-react";
+import { usePathname } from "next/navigation";
 
 const ScrollDownButton = () => {
     const [showButton, setShowButton] = useState<boolean>(false);
+    const pathname = usePathname();
+
 
     const scrollToBottom = () => {
         window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
@@ -25,6 +28,8 @@ const ScrollDownButton = () => {
             window.removeEventListener("scroll", handleScroll);
         };
     }, []);
+
+    if (!(pathname.includes("code") || pathname.includes("chat"))) return null;
 
     return (
         showButton && (
