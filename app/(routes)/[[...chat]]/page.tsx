@@ -206,7 +206,6 @@ const ChatPage = () => {
                                         "text-slate-300": !isPromptEmpty,
                                     })}
                                     strokeWidth={1.5}
-                                    size="md"
                                 />
                             </Button>
                         </form>
