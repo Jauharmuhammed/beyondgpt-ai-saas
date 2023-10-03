@@ -34,6 +34,7 @@
     "eslint": "8.49.0",
     "eslint-config-next": "13.4.19",
     "lucide-react": "^0.276.0",
+    "moment": "^2.29.4",
     "next": "13.4.19",
     "next-themes": "^0.2.1",
     "openai": "^4.10.0",
