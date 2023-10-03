@@ -45,7 +45,7 @@ const ChatPage = () => {
 
     const { userId } = useAuth();
     const [isPromptEmpty, setIsPromptEmpty] = useState<boolean>(true);
-    const { messages, setMessages } = useChat();
+    const [messages, setMessages] = useState<messageType[]>([]);
 
     const bottomRef = useRef<HTMLDivElement | null>(null);
 

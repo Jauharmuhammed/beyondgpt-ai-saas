@@ -51,7 +51,13 @@ const Sidebar = ({ apiLimitCount = 0, chats, isPro = false }: SidebarProps) => {
                 <FreeCounter isPro={isPro} apiLimitCount={apiLimitCount} />
                 <div className="flex justify-between items-center">
                     <div className={cn("cursor-pointer w-full")}>
-                        <UserButton showName afterSignOutUrl="/landing" />
+                        <UserButton
+                            appearance={{
+                                
+                            }}
+                            showName
+                            afterSignOutUrl="/landing"
+                        />
                     </div>
                     <div className="flex items-center">
                         <div className={cn("cursor-pointer text-indigo-300")}>
