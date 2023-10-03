@@ -15,10 +15,10 @@ const DashboardLayout = async ({ children }: { children: React.ReactNode }) => {
 
     return (
         <div className="h-full relative">
-            <section className="hidden h-full md:flex md:fixed w-72">
+            <section className="hidden h-full md:flex md:fixed w-80">
                 <Sidebar isPro={isPro} apiLimitCount={apiLimitCount} chats={chats} />
             </section>
-            <section className="md:ms-72 bg-slate-900 h-full flex flex-col">
+            <section className="md:ms-80 bg-slate-900 h-full flex flex-col">
                 <Navbar isPro={isPro} apiLimitCount={apiLimitCount} chats={chats} />
                 <ScrollDownButton />
                 <Providers>{children}</Providers>

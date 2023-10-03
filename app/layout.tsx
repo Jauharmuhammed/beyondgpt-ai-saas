@@ -6,6 +6,7 @@ import { dark } from "@clerk/themes";
 import { ChatProvider } from "@/contexts/chat-context";
 import ModalProvider from "@/components/modal-provider";
 import { ToasterProvider } from "@/components/toaser-provider";
+import TopLoadingBar from "@/components/loading-bar";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,6 +21,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <ChatProvider>
                 <html lang="en">
                     <body className={inter.className}>
+                        <TopLoadingBar />
                         <ModalProvider />
                         <ToasterProvider />
                         {children}

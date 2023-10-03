@@ -6,7 +6,7 @@ import UnderConstruction from "./under-construction";
 const Plugins = () => {
     return (
         <>
-            <div className="flex gap-2">
+            <div className="flex gap-2 items-center">
                 <SidebarHeader title="Plugins" />
                 <ProBadge />
             </div>

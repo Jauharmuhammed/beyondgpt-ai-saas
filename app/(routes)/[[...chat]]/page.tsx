@@ -45,7 +45,7 @@ const ChatPage = () => {
 
     const { userId } = useAuth();
     const [isPromptEmpty, setIsPromptEmpty] = useState<boolean>(true);
-    const { messages, setMessages } = useChat();
+    const [messages, setMessages] = useState<messageType[]>([]);
 
     const bottomRef = useRef<HTMLDivElement | null>(null);
 
@@ -168,7 +168,7 @@ const ChatPage = () => {
                         className="bg-slate-925 w-full h-full min-h-[8rem] md:min-h-[10rem] mt-auto"></div>
                 </div>
             )}
-            <div className="fixed bottom-0 left-0 md:left-72 right-0 bg-gradient-to-b from-transparent via-slate-925 to-slate-925 flex flex-col justify-end items-center h-32 md:h-40 py-6 md:py-10 px-3 md:px-4">
+            <div className="fixed bottom-0 left-0 md:left-80 right-0 bg-gradient-to-b from-transparent via-slate-925 to-slate-925 flex flex-col justify-end items-center h-32 md:h-40 py-6 md:py-10 px-3 md:px-4">
                 <div className="w-full max-w-2xl relative">
                     <Form {...form}>
                         <form
@@ -206,7 +206,6 @@ const ChatPage = () => {
                                         "text-slate-300": !isPromptEmpty,
                                     })}
                                     strokeWidth={1.5}
-                                    size="md"
                                 />
                             </Button>
                         </form>
