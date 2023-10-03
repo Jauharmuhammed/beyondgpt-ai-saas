@@ -12,6 +12,7 @@ import FreeCounter from "./free-counter";
 import { Card } from "./ui/card";
 import { Chat } from "@prisma/client";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 interface SidebarProps {
     apiLimitCount: number;
@@ -51,22 +52,12 @@ const Sidebar = ({ apiLimitCount = 0, chats, isPro = false }: SidebarProps) => {
                 <FreeCounter isPro={isPro} apiLimitCount={apiLimitCount} />
                 <div className="flex justify-between items-center">
                     <div className={cn("cursor-pointer w-full")}>
-                        <UserButton
-                            appearance={{
-                                
-                            }}
-                            showName
-                            afterSignOutUrl="/landing"
-                        />
+                        <UserButton appearance={{}} showName afterSignOutUrl="/landing" />
                     </div>
                     <div className="flex items-center">
-                        <div className={cn("cursor-pointer text-indigo-300")}>
-                            <Settings
-                                onClick={() => router.push("/settings")}
-                                strokeWidth={1}
-                                className="h-[1.4rem] w-[1.4rem]"
-                            />
-                        </div>
+                        <Link href={"/settings"} className={cn("cursor-pointer text-indigo-300")}>
+                            <Settings strokeWidth={1} className="h-[1.4rem] w-[1.4rem]" />
+                        </Link>
                     </div>
                 </div>
             </Card>

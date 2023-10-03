@@ -76,8 +76,30 @@ video {
     object-fit: cover;
     height: 100%;
     width: 100%;
-  
+
     position: absolute;
     top: 0;
     left: 0;
-  }
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+    width: 5px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 0px transparent;
+    border-radius: 10px;
+}
+.custom-scrollbar:hover::-webkit-scrollbar-thumb {
+    background: #172554;
+    border-radius: 10px;
+   
+}
+
+
+/* clerk userbuttons in mobile screen */
+.cl-userButtonPopoverCard,
+.cl-card,
+.cl-userButton-popover,
+.cl-internal-1w67h8a {
+    z-index: 99999 !important;
+}

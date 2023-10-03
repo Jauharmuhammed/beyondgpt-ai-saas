@@ -3,11 +3,11 @@
 import { cn } from "@/lib/utils";
 import { Chat } from "@prisma/client";
 import { MessageSquare, MoreHorizontal, Star, Trash } from "lucide-react";
-import { usePathname, useRouter } from "next/navigation";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import React, { useState } from "react";
 
 const Chat = ({ chat }: { chat: Chat }) => {
-    const router = useRouter();
     const pathname = usePathname();
 
     const [isOpen, setIsOpen] = useState(false);
@@ -20,6 +20,7 @@ const Chat = ({ chat }: { chat: Chat }) => {
 
     const handleStar = (e: React.MouseEvent<SVGSVGElement>) => {
         e.stopPropagation();
+        e.preventDefault();
 
         console.log("ADDED TO FAVOURITES");
     };
@@ -32,19 +33,21 @@ const Chat = ({ chat }: { chat: Chat }) => {
 
     return (
         <div
-            onClick={() => router.push(`/chat/${chat.id}`)}
             className={cn(
-                " flex p-2.5 space-x-2 items-center rounded-sm hover:bg-slate-900 cursor-pointer",
+                " flex space-x-2 items-center rounded-sm hover:bg-slate-900",
                 {
                     "bg-slate-900": pathname.includes(chat.id),
                 }
             )}>
-            <MessageSquare className="text-indigo-300/80" size={16} />
-            <p className="text-sm text-slate-300 truncate w-1 flex-grow">{chat.title}</p>
+            <Link href={`/chat/${chat.id}`} className="flex p-2.5 w-full space-x-2 items-center  cursor-pointer">
+                <MessageSquare className="text-indigo-300/80" size={16} />
+                <p className="text-sm text-slate-300 truncate w-1 flex-grow">{chat.title}</p>
+            </Link>
             <div
+                onClick={(e) => e.preventDefault()}
                 onMouseEnter={() => setIsOpen(true)}
                 onMouseLeave={() => setIsOpen(false)}
-                className="flex space-x-2 items-center">
+                className="flex pe-2.5 space-x-2 items-center  cursor-pointer">
                 {isOpen && (
                     <>
                         <Trash

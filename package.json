@@ -36,6 +36,7 @@
     "lucide-react": "^0.276.0",
     "moment": "^2.29.4",
     "next": "13.4.19",
+    "next-nprogress-bar": "^2.1.2",
     "next-themes": "^0.2.1",
     "openai": "^4.10.0",
     "postcss": "8.4.29",
