@@ -6,7 +6,7 @@ import { Button } from "../ui/button";
 
 const Navbar = () => {
     return (
-        <section className="flex fixed z-50 top-0 left-0 right-0 justify-between p-4 md:p-6 backdrop-blur-md">
+        <nav className="flex fixed z-50 top-0 left-0 right-0 justify-between p-4 md:p-6 backdrop-blur-md">
             <div>
                 <div className="">
                     <Link className="flex space-x-3 items-center" href={"/dashboard"}>
@@ -33,7 +33,7 @@ const Navbar = () => {
                     </Button>
                 </Link>
             </div>
-        </section>
+        </nav>
     );
 };
 

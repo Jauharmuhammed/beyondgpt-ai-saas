@@ -4,10 +4,10 @@ import React from "react";
 
 const LandingPageLayout = async ({ children }: { children: React.ReactNode }) => {
     return (
-        <div className="h-full">
+        <div className="">
             <Navbar />
             <CrispProvider />
-            <div className="">{children}</div>
+            {children}
         </div>
     );
 };
