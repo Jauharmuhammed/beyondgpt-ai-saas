@@ -90,7 +90,7 @@ video {
     border-radius: 10px;
 }
 .custom-scrollbar:hover::-webkit-scrollbar-thumb {
-    background: #172554;
+    background: #1e1b4b;
     border-radius: 10px;
    
 }

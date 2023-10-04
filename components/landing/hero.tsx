@@ -10,6 +10,8 @@ const Hero = () => {
                     autoPlay
                     muted
                     loop>
+                    <source src="hero.mp4" type="video/mp4" />
+                    <source src="hero.ogv" type="video/ogv" />
                     <source src="hero.webm" type="video/webm" />
                 </video>
 
