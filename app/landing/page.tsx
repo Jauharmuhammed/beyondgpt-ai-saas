@@ -6,7 +6,9 @@ import Plans from "@/components/landing/plans";
 const LandingPage = () => {
     return (
         <div>
-            <Hero />
+            <div className="w-full h-full overflow-x-hidden">
+                <Hero />
+            </div>
             <Plans />
         </div>
     );

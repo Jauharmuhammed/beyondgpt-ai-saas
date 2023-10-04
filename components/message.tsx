@@ -15,8 +15,6 @@ const Message = ({ message, id }: { message: MessageType; id: string }) => {
     const preRef = useRef<HTMLPreElement | null>(null);
 
     function handleCopy() {
-        console.log(preRef.current?.innerText);
-
         try {
             navigator.clipboard.writeText(preRef.current?.innerText!);
         } catch {
@@ -56,10 +54,10 @@ const Message = ({ message, id }: { message: MessageType; id: string }) => {
                             </div>
                         ),
                         code: ({ node, ...props }) => (
-                            <code className="bg-black/90 rounded-lg p-1 px-2" {...props} />
+                            <code className="text-slate-50 " {...props} />
                         ),
                     }}
-                    className="py-1 flex-grow leading-6 w-1 md:pe-8 text-sm text-slate-300 whitespace-pre-line space-y-0">
+                    className="py-1 flex-grow leading-[1.7rem] w-1 md:pe-8 text-sm text-slate-300 whitespace-pre-line space-y-0">
                     {message.content || ""}
                 </ReactMarkdown>
             </div>
