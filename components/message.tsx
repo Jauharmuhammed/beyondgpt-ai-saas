@@ -57,7 +57,7 @@ const Message = ({ message, id }: { message: MessageType; id: string }) => {
                             <code className="text-slate-50 " {...props} />
                         ),
                     }}
-                    className="py-1 flex-grow leading-[1.7rem] w-1 md:pe-8 text-sm text-slate-300 whitespace-pre-line space-y-0">
+                    className="py-1 flex-grow leading-[1.7rem] w-1 md:pe-8 text-sm text-slate-300 whitespace-pre-line overflow-wrap-break-word space-y-0">
                     {message.content || ""}
                 </ReactMarkdown>
             </div>

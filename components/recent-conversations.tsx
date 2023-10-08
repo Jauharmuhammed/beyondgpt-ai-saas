@@ -41,7 +41,6 @@ const RecentConversations = ({ chats }: { chats: ChatType[] }) => {
         }
     });
 
-    console.log(groupedChats);
 
     function renderFilteredChats(chats: ChatType[], title: string) {
         return (

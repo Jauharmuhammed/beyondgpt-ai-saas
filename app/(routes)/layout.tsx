@@ -2,7 +2,6 @@ import Navbar from "@/components/navbar";
 import ScrollDownButton from "@/components/scroll-down-button";
 import Sidebar from "@/components/sidbar";
 import { Toaster } from "@/components/ui/toaster";
-import { Providers } from "@/contexts/providers";
 import { getChats } from "@/lib/api-chat";
 import { getApiLimitCount } from "@/lib/api-limit";
 import { checkSubscription } from "@/lib/subscription";
@@ -20,8 +19,7 @@ const DashboardLayout = async ({ children }: { children: React.ReactNode }) => {
             </section>
             <section className="md:ms-80 bg-slate-900 h-full flex flex-col">
                 <Navbar isPro={isPro} apiLimitCount={apiLimitCount} chats={chats} />
-                <ScrollDownButton />
-                <Providers>{children}</Providers>
+                <ScrollDownButton />{children}
             </section>
             <Toaster />
         </div>
