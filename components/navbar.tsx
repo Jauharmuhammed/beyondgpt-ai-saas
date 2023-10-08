@@ -27,7 +27,7 @@ const Navbar = ({ apiLimitCount, chats, isPro = false }: navbarProps) => {
                             <PlusIcon />
                         </Button>
                     </Link>
-                    <Link href={"/"} className="hidden md:block fixed right-3 top-3">
+                    <Link href={"/"} className="hidden md:block fixed right-3 top-3 z-[100]">
                         <Button variant="outline" className="opacity-90">
                             <PlusIcon className="text-violet" size={16} /> &nbsp; New Chat
                         </Button>

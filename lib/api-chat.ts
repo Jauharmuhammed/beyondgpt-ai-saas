@@ -35,8 +35,6 @@ export const getMessages = async (id: string) => {
         );
     }
 
-    console.log(messages);
-
     return messages;
 };
 

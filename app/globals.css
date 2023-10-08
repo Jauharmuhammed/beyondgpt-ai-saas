@@ -113,3 +113,11 @@ textarea {
 .cl-internal-1w67h8a {
     z-index: 99999 !important;
 }
+
+.line-break-anywhere{
+    line-break: anywhere;
+}
+
+.overflow-wrap-break-word {
+    overflow-wrap: break-word;
+}

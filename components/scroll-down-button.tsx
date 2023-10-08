@@ -17,8 +17,12 @@ const ScrollDownButton = () => {
     useEffect(() => {
         // Check scroll position
         const handleScroll = () => {
-            setShowButton(window.scrollY < document.body.scrollHeight - window.innerHeight); // Show the button if user scrolled down 100 pixels
+            setShowButton(Math.ceil(window.scrollY) < document.body.scrollHeight - window.innerHeight); // Show the button if user scrolled down 100 pixels
         };
+
+        // console.log("[SCROLL_Y]", window.scrollY)
+        // console.log("[SCROLL_HEIGHT]", document.body.scrollHeight)
+        // console.log("[INNER_HEIGHT]", window.innerHeight)
 
         // Listen for scroll events
         window.addEventListener("scroll", handleScroll);

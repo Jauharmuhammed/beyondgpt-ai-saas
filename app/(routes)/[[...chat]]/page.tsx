@@ -35,6 +35,8 @@ const ChatPage = () => {
     const chatId = params.chat?.[1] || "";
     const proModal = useProModal();
 
+    const [isLoading, setIsLoading] = useState<boolean>(false)
+
     const [isCode, setIsCode] = useState(params.chat?.[0] === "code");
 
     const firstChatItem = params.chat?.[0];
@@ -92,7 +94,6 @@ const ChatPage = () => {
         }
     }, [chatId, router, setMessages]);
 
-    const isLoading = form.formState.isSubmitting;
 
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
         try {
@@ -103,6 +104,9 @@ const ChatPage = () => {
                 content: values.prompt,
             };
             setMessages((current) => [...current, userMessage]);
+
+            setIsLoading(true)
+            form.reset();
 
             const response = await axios.post("../api/chat", {
                 message: userMessage,
@@ -118,7 +122,6 @@ const ChatPage = () => {
 
             setMessages((current) => [...current, response.data.message]);
 
-            form.reset();
         } catch (error: any) {
             if (error?.response?.status === 403) {
                 proModal.open();
@@ -129,6 +132,7 @@ const ChatPage = () => {
             console.log(error);
         } finally {
             router.refresh();
+            setIsLoading(false)
         }
     };
 
