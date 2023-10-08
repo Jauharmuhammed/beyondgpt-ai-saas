@@ -25,7 +25,7 @@
 ## About The Project
 <br>
 <p align='center'>
-<img src="https://github.com/Jauharmuhammed/beyondgpt-ai-sass/blob/main/assets/Home.png" width='70%' >
+<img src="https://github.com/Jauharmuhammed/beyondgpt-ai-sass/blob/main/assets/banner.png" width='70%' >
 </p>
 <br>
 
