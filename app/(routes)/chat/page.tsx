@@ -4,7 +4,6 @@ import { useEffect, useRef, useState } from "react";
 
 import { SendHorizonal } from "lucide-react";
 import TextareaAutosize from "react-textarea-autosize";
-import axios from "axios";
 
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -13,9 +12,7 @@ import { useRouter, useParams, usePathname } from "next/navigation";
 import Empty from "@/components/empty";
 import Loader from "@/components/loader";
 import Message from "@/components/message";
-import { useAuth } from "@clerk/nextjs";
 import { useProModal } from "@/hooks/use-pro-modal";
-import { getMessages } from "@/lib/api-chat";
 import toast from "react-hot-toast";
 import { Message as MessageType, useChat } from "ai/react";
 
