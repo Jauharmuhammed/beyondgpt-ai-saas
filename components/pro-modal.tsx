@@ -33,7 +33,7 @@ const ProModal = () => {
                             <ProBadge />
                         </div>
                     </DialogTitle>
-                    <DialogDescription className="box-border flex flex-col md:flex-row justify-between space-y-3 md:space-y-0">
+                    <DialogDescription asChild className="box-border flex flex-col md:flex-row justify-between space-y-3 md:space-y-0">
                         <PlanDetails actionButtons onSubscribe={onSubscribe} loading={loading} />
                     </DialogDescription>
                 </DialogHeader>

@@ -20,14 +20,14 @@ const Navbar = ({ apiLimitCount, chats, isPro = false }: navbarProps) => {
         <div className="fixed top-0 border-b md:border-none md:static md:min-h-[4rem] w-full flex justify-between items-center px-2.5 py-1 bg-slate-900 z-10">
             <MobileSidebar apiLimitCount={apiLimitCount} chats={chats} isPro={isPro} />
 
-            {pathname !== "/" && (
+            {pathname !== "/chat" && (
                 <>
                     <Link href={"/"} className="md:hidden">
                         <Button variant="ghost" className="p-2">
                             <PlusIcon />
                         </Button>
                     </Link>
-                    <Link href={"/"} className="hidden md:block fixed right-3 top-3 z-[100]">
+                    <Link href={"/chat"} className="hidden md:block fixed right-3 top-3 z-[100]">
                         <Button variant="outline" className="opacity-90">
                             <PlusIcon className="text-violet" size={16} /> &nbsp; New Chat
                         </Button>

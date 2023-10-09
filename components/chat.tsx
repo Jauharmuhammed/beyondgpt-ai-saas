@@ -34,9 +34,9 @@ const Chat = ({ chat }: { chat: Chat }) => {
     return (
         <div
             className={cn(
-                " flex space-x-2 items-center rounded-sm hover:bg-slate-900",
+                " flex space-x-2 items-center rounded-sm hover:bg-slate-925",
                 {
-                    "bg-slate-900": pathname.includes(chat.id),
+                    "bg-slate-900 hover:bg-slate-900": pathname.includes(chat.id),
                 }
             )}>
             <Link href={`/chat/${chat.id}`} className="flex p-2.5 w-full space-x-2 items-center  cursor-pointer">
