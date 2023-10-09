@@ -23,7 +23,7 @@ const RecentConversations = ({ chats }: { chats: ChatType[] }) => {
     const thirteethday = moment().subtract(30, 'days').format('YYYY-MM-DD');
 
     chats.forEach((chat) => {
-        const date = moment(chat.updatedAt).format('YYYY-MM-DD');
+        const date = moment(chat.messageUpdatedAt).format('YYYY-MM-DD');
 
         if (date === today) {
             setGroup("Today", chat);
@@ -34,7 +34,7 @@ const RecentConversations = ({ chats }: { chats: ChatType[] }) => {
         } else if (moment(date).isAfter(thirteethday)) {
             setGroup("Previous 30 days", chat);
         } else {
-            const date = moment(chat.updatedAt);
+            const date = moment(chat.messageUpdatedAt);
             const monthYear = date.format("MMMM YYYY");
 
             setGroup(monthYear, chat);
