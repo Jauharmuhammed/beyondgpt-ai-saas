@@ -2,6 +2,12 @@ import prisma from "@/lib/db";
 import { auth } from "@clerk/nextjs";
 import OpenAI from "openai";
 
+type messages = {
+    id: string,
+    role: "function" | "system" | "user" | "assistant",
+    content: string
+}[]
+
 export const getMessages = async (id: string) => {
     const { userId } = auth();
 
@@ -16,7 +22,7 @@ export const getMessages = async (id: string) => {
         },
     });
 
-    let messages: OpenAI.Chat.Completions.ChatCompletionMessage[] = [];
+    let messages: messages = [];
 
     if (chat) {
         const oldMessages = await prisma.message.findMany({
@@ -29,7 +35,8 @@ export const getMessages = async (id: string) => {
         });
         messages = messages.concat(
             oldMessages.map((msg) => ({
-                role: msg.role as OpenAI.Chat.Completions.ChatCompletionRole,
+                id:msg.id,
+                role: msg.role as "function" | "system" | "user" | "assistant",
                 content: msg.content,
             }))
         );

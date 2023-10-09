@@ -13,6 +13,8 @@ import { Card } from "./ui/card";
 import { Chat } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import moment from "moment";
+import { Chat as ChatType } from "@prisma/client";
 
 interface SidebarProps {
     apiLimitCount: number;
@@ -23,6 +25,41 @@ interface SidebarProps {
 const Sidebar = ({ apiLimitCount = 0, chats, isPro = false }: SidebarProps) => {
     const [active, setActive] = useState<string>("chat");
     const router = useRouter();
+
+    const groupedChats: { [key: string]: ChatType[] } = {};
+
+
+    function setGroup(key: string, chat: ChatType) {
+        if (!groupedChats[key]) {
+            groupedChats[key] = [];
+        }
+
+        groupedChats[key].push(chat);
+    }
+
+    const today = moment().format('YYYY-MM-DD');
+    const yesterday = moment().subtract(1, 'days').format('YYYY-MM-DD');
+    const seventhday = moment().subtract(7, 'days').format('YYYY-MM-DD');
+    const thirteethday = moment().subtract(30, 'days').format('YYYY-MM-DD');
+
+    chats.forEach((chat) => {
+        const date = moment(chat.messageUpdatedAt).format('YYYY-MM-DD');
+
+        if (date === today) {
+            setGroup("Today", chat);
+        } else if (date === yesterday) {
+            setGroup("Yesterday", chat);
+        } else if (moment(date).isAfter(seventhday)) {
+            setGroup("Previous 7 days", chat);
+        } else if (moment(date).isAfter(thirteethday)) {
+            setGroup("Previous 30 days", chat);
+        } else {
+            const date = moment(chat.messageUpdatedAt);
+            const monthYear = date.format("MMMM YYYY");
+
+            setGroup(monthYear, chat);
+        }
+    });
 
     return (
         <div className="flex w-full h-full flex-col">
@@ -43,7 +80,7 @@ const Sidebar = ({ apiLimitCount = 0, chats, isPro = false }: SidebarProps) => {
                     ))}
                 </div>
                 <div className="flex w-full flex-col p-4 pt-11 pr-0">
-                    {active === "chat" && <RecentConversations chats={chats} />}
+                    {active === "chat" && <RecentConversations groupedChats={groupedChats} />}
                     {active === "favourite" && <FavouriteConversations />}
                     {active === "plugins" && <Plugins />}
                 </div>
