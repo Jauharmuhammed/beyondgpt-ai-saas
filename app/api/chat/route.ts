@@ -4,12 +4,7 @@ import prisma from "@/lib/db";
 import { checkUserApiLlimit, increateApiLimit } from "@/lib/api-limit";
 import { checkSubscription } from "@/lib/subscription";
 
-import {
-    Configuration,
-    OpenAIApi,
-    ChatCompletionRequestMessage,
-    ChatCompletionRequestMessageRoleEnum,
-} from "openai-edge";
+import { Configuration, OpenAIApi } from "openai-edge";
 import { OpenAIStream, StreamingTextResponse } from "ai";
 
 export const runtime = "edge";
@@ -87,7 +82,7 @@ export async function POST(req: Request) {
         await increateApiLimit();
 
         const stream = OpenAIStream(response, {
-            onStart: async () => {
+            onCompletion: async (completion) => {
                 await prisma.message.create({
                     data: {
                         content: userMessage.content || "",
@@ -95,8 +90,7 @@ export async function POST(req: Request) {
                         chatId: id!,
                     },
                 });
-            },
-            onCompletion: async (completion) => {
+
                 await prisma.message.create({
                     data: {
                         content: completion || "",

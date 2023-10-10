@@ -28,7 +28,6 @@ const Sidebar = ({ apiLimitCount = 0, chats, isPro = false }: SidebarProps) => {
 
     const groupedChats: { [key: string]: ChatType[] } = {};
 
-
     function setGroup(key: string, chat: ChatType) {
         if (!groupedChats[key]) {
             groupedChats[key] = [];
@@ -37,13 +36,13 @@ const Sidebar = ({ apiLimitCount = 0, chats, isPro = false }: SidebarProps) => {
         groupedChats[key].push(chat);
     }
 
-    const today = moment().format('YYYY-MM-DD');
-    const yesterday = moment().subtract(1, 'days').format('YYYY-MM-DD');
-    const seventhday = moment().subtract(7, 'days').format('YYYY-MM-DD');
-    const thirteethday = moment().subtract(30, 'days').format('YYYY-MM-DD');
+    const today = moment().format("YYYY-MM-DD");
+    const yesterday = moment().subtract(1, "days").format("YYYY-MM-DD");
+    const seventhday = moment().subtract(7, "days").format("YYYY-MM-DD");
+    const thirteethday = moment().subtract(30, "days").format("YYYY-MM-DD");
 
     chats.forEach((chat) => {
-        const date = moment(chat.messageUpdatedAt).format('YYYY-MM-DD');
+        const date = moment(chat.messageUpdatedAt).format("YYYY-MM-DD");
 
         if (date === today) {
             setGroup("Today", chat);
@@ -89,7 +88,17 @@ const Sidebar = ({ apiLimitCount = 0, chats, isPro = false }: SidebarProps) => {
                 <FreeCounter isPro={isPro} apiLimitCount={apiLimitCount} />
                 <div className="flex justify-between items-center">
                     <div className={cn("cursor-pointer w-full")}>
-                        <UserButton appearance={{}} showName afterSignOutUrl="/" />
+                        <UserButton
+                            appearance={{
+                                elements: {
+                                    userButtonPopoverActionButton: {
+                                        zIndex: 99999,
+                                    },
+                                },
+                            }}
+                            showName
+                            afterSignOutUrl="/"
+                        />
                     </div>
                     <div className="flex items-center">
                         <Link href={"/settings"} className={cn("cursor-pointer text-indigo-300")}>
