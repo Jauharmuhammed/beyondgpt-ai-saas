@@ -121,3 +121,7 @@ textarea {
 .overflow-wrap-break-word {
     overflow-wrap: break-word;
 }
+
+.markdown li p {
+    margin-top: -1.7rem;
+}

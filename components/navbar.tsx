@@ -22,7 +22,7 @@ const Navbar = ({ apiLimitCount, chats, isPro = false }: navbarProps) => {
 
             {pathname !== "/chat" && (
                 <>
-                    <Link href={"/"} className="md:hidden">
+                    <Link href={"/chat"} className="md:hidden">
                         <Button variant="ghost" className="p-2">
                             <PlusIcon />
                         </Button>

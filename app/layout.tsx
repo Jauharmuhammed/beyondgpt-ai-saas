@@ -3,7 +3,6 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { ClerkProvider } from "@clerk/nextjs";
 import { dark } from "@clerk/themes";
-import { ChatProvider } from "@/contexts/chat-context";
 import ModalProvider from "@/components/modal-provider";
 import { ToasterProvider } from "@/components/toaser-provider";
 import TopLoadingBar from "@/components/loading-bar";
@@ -18,7 +17,6 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
     return (
         <ClerkProvider appearance={{ baseTheme: dark }}>
-            <ChatProvider>
                 <html lang="en">
                     <body className={inter.className}>
                         <TopLoadingBar />
@@ -27,7 +25,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                         {children}
                     </body>
                 </html>
-            </ChatProvider>
         </ClerkProvider>
     );
 }

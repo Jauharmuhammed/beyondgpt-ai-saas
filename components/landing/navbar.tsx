@@ -4,10 +4,15 @@ import Link from "next/link";
 import React from "react";
 import { Button } from "../ui/button";
 import { UserButton, auth } from "@clerk/nextjs";
+import { getLastChat } from "@/lib/api-chat";
 
-const Navbar = () => {
+const Navbar = async () => {
     const { userId } = auth();
-
+    
+    let lastChat
+    if (userId) {
+        lastChat = await getLastChat()
+    }
     return (
         <nav className="flex fixed z-50 top-0 left-0 right-0 justify-between p-4 md:p-6 backdrop-blur-md">
             <div>
@@ -26,7 +31,7 @@ const Navbar = () => {
             </div>
             {userId ? (
                 <div className="flex gap-4 items-center">
-                    <Link href="/chat">
+                    <Link href={`/chat/${lastChat?.id}`}>
                         <Button variant="primary" size="sm">
                             Go to Chats
                         </Button>

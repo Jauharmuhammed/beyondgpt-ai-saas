@@ -36,10 +36,7 @@ export async function POST(req: Request) {
             return new NextResponse("Message is required", { status: 400 });
         }
 
-        const [freeTrial, isPro] = await Promise.all([
-            checkUserApiLlimit(),
-            checkSubscription()
-        ]);
+        const [freeTrial, isPro] = await Promise.all([checkUserApiLlimit(), checkSubscription()]);
 
         if (!freeTrial && !isPro) {
             return new NextResponse("Free Trial Exhausted", { status: 403 });
@@ -52,16 +49,26 @@ export async function POST(req: Request) {
                 where: {
                     id: chatId,
                     userId: userId,
-                    isCode,
                 },
             });
-
+            if (chat?.title === "") {
+                await prisma.chat.update({
+                    where: {
+                        id: chat.id,
+                    },
+                    data: {
+                        isCode,
+                        title: userMessage.content?.substring(0, 50) || "",
+                    },
+                });
+            }
             id = chat?.id || null;
         }
 
         if (!id) {
             const newChat = await prisma.chat.create({
                 data: {
+                    id: chatId,
                     userId: userId,
                     isCode,
                     title: userMessage.content?.substring(0, 50) || "",
@@ -100,7 +107,7 @@ export async function POST(req: Request) {
 
                 await prisma.chat.update({
                     where: {
-                        id:id!,
+                        id: id!,
                     },
                     data: {
                         messageUpdatedAt: new Date(),
@@ -108,8 +115,7 @@ export async function POST(req: Request) {
                 });
             },
         });
-        return new StreamingTextResponse(stream, { status: 200, statusText:id! });
-        
+        return new StreamingTextResponse(stream, { status: 200 });
     } catch (error) {
         // Non-API error
         console.log("[CHAT_ERROR]", error);
