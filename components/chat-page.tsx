@@ -113,7 +113,7 @@ const ChatPage = ({ initialMessages, chatId, error = false }: props) => {
                     {messages.map((message, index) => (
                         <Message id={`message-${index}`} key={index} message={message} />
                     ))}
-                    {messages[messages.length - 1].role === "user" && <Loader />}
+                    {messages[messages.length - 1].role === "user" && isLoading && <Loader />}
                     <div
                         ref={bottomRef}
                         className="bg-slate-925 w-full h-full min-h-[8rem] md:min-h-[10rem] mt-auto"></div>
