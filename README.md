@@ -29,7 +29,7 @@
 </p>
 <br>
 
-A ChatGPT clone with an improved UI and enhanced features using the OpenAI API. It's a full-fledged AI SaaS application with subscription-based usage, server-side rendering for performance, Clerk authentication, and crisp chat support.. You can find the deployed project [here.](https://beyondgpt.vercel.app)
+A ChatGPT clone with an improved UI and enhanced features using the OpenAI API. It's a full-fledged AI SaaS application with subscription-based usage, powered by the Vercel AI SDK for efficient edge-runtime execution for the streaming response from api. implemented Clerk authentication payment using Stripe, and Crisp chat support. You can find the deployed project [here.](https://beyondgpt.vercel.app)
 
 <br>
 
