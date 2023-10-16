@@ -46,6 +46,7 @@
     "react-dom": "18.2.0",
     "react-hook-form": "^7.46.2",
     "react-hot-toast": "^2.4.1",
+    "react-icons": "^4.11.0",
     "react-markdown": "^8.0.7",
     "react-textarea-autosize": "^8.5.3",
     "stripe": "^13.7.0",
