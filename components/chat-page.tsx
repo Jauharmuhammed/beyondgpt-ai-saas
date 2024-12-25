@@ -179,7 +179,7 @@ const ChatPage = ({ initialMessages, chatId, error = false }: props) => {
             {process.env.NEXT_PUBLIC_API_KEY_EXPIRED === "true" && (
               <div className="absolute -top-1.5 left-0 w-full">
                 <div className="-translate-y-full w-full text-center text-xs py-1.5 px-2 text-slate-300 bg-red-500/20 rounded-md flex items-center justify-center gap-1.5">
-                  <AlertOctagon className="w-3.5 h-3.5" />{" "}
+                  <AlertOctagon className="w-4 h-4 hidden md:block" />{" "}
                   <p>
                     Currently we are experiencing issues with our API provider.
                     Please check back after some time.
