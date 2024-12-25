@@ -1,4 +1,4 @@
-import { env } from "../env";
+import { env } from "@/env";
 
 export type SiteConfig = typeof siteConfig;
 
@@ -8,7 +8,7 @@ export const siteConfig = {
   url:
     env.NODE_ENV === "development"
       ? "http://localhost:3000"
-      : process.env.NEXT_PUBLIC_SITE_URL,
+      : process.env.NEXT_PUBLIC_APP_URL,
   keywords: [
     "AI",
     "Chatbot",

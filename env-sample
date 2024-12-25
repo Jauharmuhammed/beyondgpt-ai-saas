@@ -8,7 +8,8 @@ NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL
 
 OPENAI_API_KEY
 
-DATABASE_URL
+DATABASE_URL  // database url from prisma accelarator as we are using the vercel edge function
+DIRECT_URL // direct url to the database
 
 STRIPE_API_KEY
 STRIPE_WEBHOOK_SECRET
@@ -16,3 +17,5 @@ STRIPE_WEBHOOK_SECRET
 CRISP_WEBSITE_ID
 
 NEXT_PUBLIC_APP_URL
+
+NEXT_PUBLIC_GOOGLE_VERIFICATION_KEY (optional) // google verification key for google search console
