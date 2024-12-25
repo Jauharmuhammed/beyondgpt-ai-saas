@@ -7,11 +7,22 @@ import ModalProvider from "@/components/modal-provider";
 import { ToasterProvider } from "@/components/toaser-provider";
 import TopLoadingBar from "@/components/loading-bar";
 
+import { siteConfig } from "@/config/site";
+
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-    title: "BeyondGPT",
-    description: "AI Chatbot",
+    title: siteConfig.title,
+    description: siteConfig.description,
+    verification: {
+        google: process.env.NEXT_PUBLIC_GOOGLE_VERIFICATION_KEY,
+    },
+    keywords: [...siteConfig.keywords],
+    openGraph: {
+        title: siteConfig.title,
+        description: siteConfig.description,
+        url: siteConfig.url,
+    },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
