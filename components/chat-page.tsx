@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 
-import { SendHorizonal } from "lucide-react";
+import { AlertOctagon, SendHorizonal } from "lucide-react";
 import TextareaAutosize from "react-textarea-autosize";
 
 import { Button } from "@/components/ui/button";
@@ -159,7 +159,11 @@ const ChatPage = ({ initialMessages, chatId, error = false }: props) => {
             />
             <Button
               type="submit"
-              disabled={isPromptEmpty || isLoading}
+              disabled={
+                isPromptEmpty ||
+                isLoading ||
+                process.env.NEXT_PUBLIC_API_KEY_EXPIRED === "true"
+              }
               variant="link"
               className={cn("mt-auto duration-500 w-10 h-10 p-2", {
                 "bg-slate-800": !isPromptEmpty,
@@ -172,9 +176,20 @@ const ChatPage = ({ initialMessages, chatId, error = false }: props) => {
                 strokeWidth={1.5}
               />
             </Button>
+            {process.env.NEXT_PUBLIC_API_KEY_EXPIRED === "true" && (
+              <div className="absolute -top-1.5 left-0 w-full">
+                <div className="-translate-y-full w-full text-center text-xs py-1.5 px-2 text-slate-300 bg-red-500/20 rounded-md flex items-center justify-center gap-1.5">
+                  <AlertOctagon className="w-3.5 h-3.5" />{" "}
+                  <p>
+                    Currently we are experiencing issues with our API provider.
+                    Please check back after some time.
+                  </p>
+                </div>
+              </div>
+            )}
           </form>
         </div>
-        <p className="text-xs mt-2 text-center text-slate-500">
+        <p className="text-xs mt-2 text-center text-slate-500 -z-50">
           BeyondGPT may produce inaccurate information about people, places, or
           facts.
         </p>
