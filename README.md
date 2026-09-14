@@ -13,8 +13,6 @@
     <br />
     <a href="https://github.com/jauharmuhammed/beyondgpt-ai-sass"><strong>Explore the docs »</strong></a>
     <br />
-    <a href="https://beyondgpt.vercel.app">View Site</a>
-    ·
     <a href="https://github.com/jauharmuhammed/beyondgpt-ai-sass/issues">Report Bug</a>
     ·
     <a href="https://github.com/jauharmuhammed/beyondgpt-ai-sass/issues">Request Feature</a>
